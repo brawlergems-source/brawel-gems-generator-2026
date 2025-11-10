@@ -10,13 +10,13 @@ const activities = [
 
 const GreenGem = () => (
   <motion.svg
-    width="20"
-    height="20"
+    width="22"
+    height="22"
     viewBox="0 0 100 100"
     initial={{ scale: 1 }}
-    animate={{ scale: [1, 1.2, 1] }}
-    transition={{ duration: 1.8, repeat: Infinity }}
-    style={{ filter: "drop-shadow(0 0 6px rgba(0,255,120,0.8))" }}
+    animate={{ scale: [1, 1.3, 1] }}
+    transition={{ duration: 1.4, repeat: Infinity }}
+    style={{ filter: "drop-shadow(0 0 7px rgba(0,255,140,0.9))" }}
   >
     <path d="M50 10 L75 30 L75 70 L50 90 L25 70 L25 30 Z" fill="#4ade80" stroke="#16a34a" strokeWidth="4" />
     <path d="M50 10 L75 30 L50 30 Z" fill="#86efac" />
@@ -45,25 +45,24 @@ const LiveTicker: React.FC = () => {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="
-          flex items-center gap-3
+          flex flex-col items-center justify-center
           px-5 py-2
           bg-gradient-to-r from-green-500 to-green-600
           rounded-full
           text-white font-semibold
           shadow-[0_0_14px_rgba(0,255,120,0.6)]
           w-full sm:w-auto
-          whitespace-nowrap
+          text-center
         "
       >
-        <GreenGem />
+        {/* Line 1: gem + message */}
+        <div className="flex items-center gap-2 text-sm sm:text-base">
+          <GreenGem />
+          <span>{activities[index].text}</span>
+        </div>
 
-        {/* النص يرجع كامل بدون قطع */}
-        <span className="text-sm sm:text-base">
-          {activities[index].text}
-        </span>
-
-        {/* الوقت يبقى في الجهة اليمنى دائما */}
-        <span className="text-xs opacity-90 ml-auto">
+        {/* Line 2: time under, centered */}
+        <span className="text-xs opacity-90 mt-0.5">
           ({activities[index].time})
         </span>
       </motion.div>
