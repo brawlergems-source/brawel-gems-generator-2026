@@ -426,7 +426,7 @@ const GemSelector: React.FC<GemSelectorProps> = ({ gemPacks, onSelect, onMessage
       >
         GEM PACKS
       </h2>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 md:gap-6 place-items-center">
         {gemPacks.map((pack) => (
           <button
             key={pack.amount}
@@ -434,11 +434,17 @@ const GemSelector: React.FC<GemSelectorProps> = ({ gemPacks, onSelect, onMessage
             className="group transition-transform duration-300 transform focus:outline-none focus:ring-4 focus:ring-offset-2 focus:ring-offset-[#3e62c2] focus:ring-cyan-400 focus:z-10 rotate-[-3deg] hover:rotate-0 hover:scale-105"
             aria-label={`Select ${pack.amount} gems`}
           >
-            <img 
-                src={pack.imageUrl} 
-                alt={`${pack.amount} Gems`} 
-                className="w-full h-auto"
-            />
+            <img
+  src={pack.imageUrl}
+  alt={`${pack.amount} Gems`}
+  className="w-full h-auto object-contain select-none"
+  style={{
+    imageRendering: "crisp-edges",
+    WebkitFilter: "drop-shadow(0 0 6px rgba(0, 255, 106, 0.6))",
+    filter: "drop-shadow(0 0 6px rgba(0, 255, 106, 0.6))",
+    animation: "pulseGlow 2s infinite ease-in-out",
+  }}
+/>
           </button>
         ))}
       </div>
