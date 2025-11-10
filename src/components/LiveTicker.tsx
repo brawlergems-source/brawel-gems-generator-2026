@@ -1,67 +1,73 @@
 import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
 
 const activities = [
-  "PlayerX just generated 2000 Gems!",
-  "NewbieBrawler received 950 Gems!",
-  "ProGamer unlocked all brawlers!",
-  "GemMaster_25 claimed 360 Gems!",
-  "BrawlFanatic got 170 Gems!",
-  "StarPlayer_YT received 2000 Gems!",
+  { text: "GemMaster_25 claimed 360 Gems!", time: "3 min ago" },
+  { text: "PlayerX just generated 2000 Gems!", time: "1 min ago" },
+  { text: "ProGamer received 950 Gems!", time: "5 min ago" },
+  { text: "BrawlFanatic unlocked all brawlers!", time: "8 min ago" },
 ];
 
-// نفس أيقونة الجوهرة
-const GemIcon: React.FC<{ className?: string }> = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 320 512"
-    className={className}
-    style={{ filter: "drop-shadow(0 0 3px rgba(192, 132, 252, 0.4))" }}
-    aria-hidden="true"
+// 💚 SVG جوهرة خضراء
+const GreenGem = () => (
+  <motion.svg
+    width="20"
+    height="20"
+    viewBox="0 0 100 100"
+    initial={{ scale: 1 }}
+    animate={{ scale: [1, 1.2, 1] }}
+    transition={{ duration: 1.8, repeat: Infinity }}
+    style={{ filter: "drop-shadow(0 0 6px rgba(0,255,120,0.8))" }}
   >
-    <path fill="#8548b9" d="M160 0L0 128v256l160 128 160-128V128L160 0z" />
-    <path fill="#a661ce" d="M160 0l160 128v256L160 512 0 384V128L160 0z" />
-    <path fill="#c77dff" d="M160 0l160 128-160 64-160-64L160 0z" />
-    <path fill="#b36ce6" d="M0 128l160 64v192L0 384V128z" />
-    <path fill="#9957cc" d="M160 192l160-64v192l-160 64V192z" />
-  </svg>
+    <path d="M50 10 L75 30 L75 70 L50 90 L25 70 L25 30 Z" fill="#4ade80" stroke="#16a34a" strokeWidth="4" />
+    <path d="M50 10 L75 30 L50 30 Z" fill="#86efac" />
+    <path d="M50 10 L25 30 L50 30 Z" fill="#22c55e" />
+    <path d="M75 30 L75 70 L50 50 Z" fill="#86efac" />
+    <path d="M25 30 L25 70 L50 50 Z" fill="#22c55e" />
+    <path d="M50 50 L75 70 L50 90 L25 70 Z" fill="#16a34a" />
+  </motion.svg>
 );
 
-// توليد وقت عشوائي
-const randomTimeAgo = () => {
-  const minutes = Math.floor(Math.random() * 25) + 1;
-  return `${minutes} min ago`;
-};
-
 const LiveTicker: React.FC = () => {
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [timeAgo, setTimeAgo] = useState(randomTimeAgo());
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setActiveIndex((prev) => (prev + 1) % activities.length);
-      setTimeAgo(randomTimeAgo());
-    }, 4000); // مدة الأنميشن
-
-    return () => clearInterval(interval);
+    const cycle = setInterval(() => {
+      setIndex((prev) => (prev + 1) % activities.length);
+    }, 3500);
+    return () => clearInterval(cycle);
   }, []);
 
   return (
-    <div
-      className="
-        relative w-full 
-        bg-gradient-to-r from-green-500 via-green-600 to-green-700
-        rounded-full border border-green-300/60 
-        py-2 mb-6 flex items-center justify-center 
-        h-10 overflow-hidden shadow-lg shadow-green-900/40
-      "
-    >
-      <div key={activeIndex} className="animate-fadeInOut absolute flex items-center">
-        <GemIcon className="w-3 h-5 mr-2" />
-        <span className="text-white text-sm font-semibold tracking-wide">
-          {activities[activeIndex]}
+    <div className="w-full flex justify-center mb-6 px-2">
+      <motion.div
+        key={index}
+        initial={{ opacity: 0, y: -5 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        className="
+          flex items-center gap-2
+          px-4 py-2
+          bg-gradient-to-r from-green-500 to-green-600
+          rounded-full
+          text-white font-semibold
+          shadow-[0_0_14px_rgba(0,255,120,0.6)]
+          w-full sm:w-auto
+          whitespace-nowrap overflow-hidden
+        "
+      >
+        <GreenGem />
+
+        {/* النص ما يهبطش للسطر الثاني */}
+        <span className="truncate max-w-[65%] sm:max-w-none">
+          {activities[index].text}
         </span>
-        <span className="text-white/80 text-xs ml-2">({timeAgo})</span>
-      </div>
+
+        {/* الوقت يبقى ثابت */}
+        <span className="text-sm opacity-90 flex-shrink-0">
+          ({activities[index].time})
+        </span>
+      </motion.div>
     </div>
   );
 };
