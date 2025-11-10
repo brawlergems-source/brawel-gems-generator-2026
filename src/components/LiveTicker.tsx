@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 
 const activities = [
-  { text: "GemMaster_25 claimed 360 Gems!", time: "3 min ago" },
-  { text: "PlayerX just generated 2000 Gems!", time: "1 min ago" },
-  { text: "ProGamer received 950 Gems!", time: "5 min ago" },
-  { text: "BrawlFanatic unlocked all brawlers!", time: "8 min ago" },
+  { text: "PlayerX just generated 2000 Gems!", time: "3 min ago" },
+  { text: "NewbieBrawler received 950 Gems!", time: "5 min ago" },
+  { text: "ProGamer unlocked all brawlers!", time: "8 min ago" },
+  { text: "GemMaster_25 claimed 360 Gems!", time: "1 min ago" },
 ];
 
-// 💚 SVG جوهرة خضراء
 const GreenGem = () => (
   <motion.svg
     width="20"
@@ -39,32 +38,32 @@ const LiveTicker: React.FC = () => {
   }, []);
 
   return (
-    <div className="w-full flex justify-center mb-6 px-2">
+    <div className="w-full flex justify-center mb-6 px-3">
       <motion.div
         key={index}
-        initial={{ opacity: 0, y: -5 }}
+        initial={{ opacity: 0, y: -6 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}
         className="
-          flex items-center gap-2
-          px-4 py-2
+          flex items-center gap-3
+          px-5 py-2
           bg-gradient-to-r from-green-500 to-green-600
           rounded-full
           text-white font-semibold
           shadow-[0_0_14px_rgba(0,255,120,0.6)]
           w-full sm:w-auto
-          whitespace-nowrap overflow-hidden
+          whitespace-nowrap
         "
       >
         <GreenGem />
 
-        {/* النص ما يهبطش للسطر الثاني */}
-        <span className="truncate max-w-[65%] sm:max-w-none">
+        {/* النص يرجع كامل بدون قطع */}
+        <span className="text-sm sm:text-base">
           {activities[index].text}
         </span>
 
-        {/* الوقت يبقى ثابت */}
-        <span className="text-sm opacity-90 flex-shrink-0">
+        {/* الوقت يبقى في الجهة اليمنى دائما */}
+        <span className="text-xs opacity-90 ml-auto">
           ({activities[index].time})
         </span>
       </motion.div>
